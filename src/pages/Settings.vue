@@ -7,89 +7,37 @@
         <div class="flex items-center">
           <h1 class="text-xl font-bold">TaskFlow</h1>
         </div>
-        <div class="flex items-center space-x-8">
-          <a href="/" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Home</a>
-          <a href="/dashboard" data-readdy="true" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Dashboard</a>
-          <a href="/projects" data-readdy="true" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Projects</a>
-          <a href="/settings" data-readdy="true" :class="[theme === 'dark' ? 'text-blue-500 font-medium' : 'text-blue-600 font-medium']" class="transition-colors cursor-pointer">Settings</a>
-          <a href="/help" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Help</a>
+        <!-- Hamburger for mobile -->
+        <button @click="showMobileNav = !showMobileNav" class="md:hidden ml-4 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <span class="sr-only">Open main menu</span>
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+        <!-- Nav links -->
+        <div class="hidden md:flex items-center space-x-8">
+          <router-link to="/" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Home</router-link>
+          <router-link to="/dashboard" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Dashboard</router-link>
+          <router-link to="/projects" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Projects</router-link>
+          <router-link to="/settings" :class="[theme === 'dark' ? 'text-blue-500 font-medium' : 'text-blue-600 font-medium']" class="transition-colors cursor-pointer">Settings</router-link>
+          <router-link to="/help" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Help</router-link>
         </div>
         <div class="flex items-center space-x-4">
-          <button
-            id="signInButton"
-            @click="showSignInModal = true"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 !rounded-button cursor-pointer whitespace-nowrap transition-colors">
-            Sign In
-          </button>
-          <!-- Sign In Modal -->
-          <div v-if="showSignInModal" class="fixed inset-0 z-50 flex items-center justify-center">
-            <div class="absolute inset-0 bg-black bg-opacity-50" @click="showSignInModal = false"></div>
-            <div :class="[theme === 'dark' ? 'bg-gray-800' : 'bg-white']" class="relative w-full max-w-md p-8 rounded-lg shadow-xl">
-              <button
-                id="closeSignInModal"
-                @click="showSignInModal = false"
-                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 cursor-pointer">
-                <i class="fas fa-times"></i>
-              </button>
-              <h2 :class="[theme === 'dark' ? 'text-white' : 'text-gray-900']" class="text-2xl font-bold mb-6">Sign In</h2>
-              <form @submit.prevent="handleSignIn" class="space-y-4">
-                <div>
-                  <label :class="[theme === 'dark' ? 'text-gray-300' : 'text-gray-700']" class="block text-sm font-medium mb-2">Email or Username</label>
-                  <input
-                    id="signInEmail"
-                    v-model="signInForm.email"
-                    type="text"
-                    class="w-full px-4 py-2 rounded border bg-transparent focus:ring-2 focus:ring-blue-500 outline-none"
-                    :class="[theme === 'dark' ? 'border-gray-600 text-white' : 'border-gray-300 text-gray-900']"
-                    required
-                  >
-                </div>
-                <div>
-                  <label :class="[theme === 'dark' ? 'text-gray-300' : 'text-gray-700']" class="block text-sm font-medium mb-2">Password</label>
-                  <input
-                    id="signInPassword"
-                    v-model="signInForm.password"
-                    type="password"
-                    class="w-full px-4 py-2 rounded border bg-transparent focus:ring-2 focus:ring-blue-500 outline-none"
-                    :class="[theme === 'dark' ? 'border-gray-600 text-white' : 'border-gray-300 text-gray-900']"
-                    required
-                  >
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center">
-                    <input
-                      id="rememberMe"
-                      v-model="signInForm.remember"
-                      type="checkbox"
-                      class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                    >
-                    <label :class="[theme === 'dark' ? 'text-gray-300' : 'text-gray-700']" class="ml-2 block text-sm">Remember me</label>
-                  </div>
-                  <a href="#" :class="[theme === 'dark' ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500']" class="text-sm font-medium cursor-pointer">Forgot password?</a>
-                </div>
-                <button
-                  id="submitSignIn"
-                  type="submit"
-                  class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 !rounded-button font-medium cursor-pointer whitespace-nowrap transition-colors">
-                  Sign In
-                </button>
-              </form>
-              <p :class="[theme === 'dark' ? 'text-gray-400' : 'text-gray-600']" class="mt-6 text-center text-sm">
-                Don't have an account?
-                <a href="#" :class="[theme === 'dark' ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-500']" class="font-medium cursor-pointer">Sign up</a>
-              </p>
-            </div>
-          </div>
-          <button
-            id="themeToggle"
-            :class="[theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900']"
-            class="cursor-pointer transition-colors"
-            @click="toggleTheme"
-          >
+          <button id="themeToggle" :class="[theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900']" class="cursor-pointer transition-colors" @click="toggleTheme">
             <i :class="[theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun']"></i>
           </button>
         </div>
       </nav>
+      <!-- Mobile nav -->
+      <transition name="fade">
+        <div v-if="showMobileNav" class="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 space-y-2">
+          <router-link @click.native="showMobileNav = false" to="/" class="block py-2 px-4 rounded hover:bg-blue-50 dark:hover:bg-gray-700">Home</router-link>
+          <router-link @click.native="showMobileNav = false" to="/dashboard" class="block py-2 px-4 rounded hover:bg-blue-50 dark:hover:bg-gray-700">Dashboard</router-link>
+          <router-link @click.native="showMobileNav = false" to="/projects" class="block py-2 px-4 rounded hover:bg-blue-50 dark:hover:bg-gray-700">Projects</router-link>
+          <router-link @click.native="showMobileNav = false" to="/settings" class="block py-2 px-4 rounded hover:bg-blue-50 dark:hover:bg-gray-700">Settings</router-link>
+          <router-link @click.native="showMobileNav = false" to="/help" class="block py-2 px-4 rounded hover:bg-blue-50 dark:hover:bg-gray-700">Help</router-link>
+        </div>
+      </transition>
   
       <!-- Settings Page Container -->
       <div class="container mx-auto px-6 py-8">
@@ -1487,12 +1435,14 @@
   
   <script lang="ts" setup>
   import { ref, onMounted } from 'vue';
+  import { RouterLink } from 'vue-router'
   
   // Theme management
   const theme = ref(localStorage.getItem('theme') || 'dark');
   const showSignInModal = ref(false);
   const showSignUpModal = ref(false);
   const showInviteModal = ref(false);
+  const showMobileNav = ref(false)
   
   // Settings sections
   const settingsSections = [

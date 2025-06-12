@@ -7,12 +7,20 @@
         <div class="flex items-center">
           <h1 class="text-xl font-bold">TaskFlow</h1>
         </div>
-        <div class="flex items-center space-x-8">
-          <a href="/" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Home</a>
-          <a href="/dashboard" data-readdy="true" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Dashboard</a>
-          <a href="/projects" :class="[theme === 'dark' ? 'text-blue-500 font-medium' : 'text-blue-600 font-medium']" class="transition-colors cursor-pointer">Projects</a>
-          <a href="/settings" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Settings</a>
-          <a href="/help" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Help</a>
+        <!-- Hamburger for mobile -->
+        <button @click="showMobileNav = !showMobileNav" class="md:hidden ml-4 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <span class="sr-only">Open main menu</span>
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+        <!-- Nav links -->
+        <div class="hidden md:flex items-center space-x-8">
+          <router-link to="/" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Home</router-link>
+          <router-link to="/dashboard" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Dashboard</router-link>
+          <router-link to="/projects" :class="[theme === 'dark' ? 'text-blue-500 font-medium' : 'text-blue-600 font-medium']" class="transition-colors cursor-pointer">Projects</router-link>
+          <router-link to="/settings" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Settings</router-link>
+          <router-link to="/help" :class="[theme === 'dark' ? 'hover:text-blue-400' : 'hover:text-blue-600']" class="transition-colors cursor-pointer">Help</router-link>
         </div>
         <div class="flex items-center space-x-4">
           <button
@@ -93,6 +101,16 @@
           </button>
         </div>
       </nav>
+      <!-- Mobile nav -->
+      <transition name="fade">
+        <div v-if="showMobileNav" class="md:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 space-y-2">
+          <router-link @click.native="showMobileNav = false" to="/" class="block py-2 px-4 rounded hover:bg-blue-50 dark:hover:bg-gray-700">Home</router-link>
+          <router-link @click.native="showMobileNav = false" to="/dashboard" class="block py-2 px-4 rounded hover:bg-blue-50 dark:hover:bg-gray-700">Dashboard</router-link>
+          <router-link @click.native="showMobileNav = false" to="/projects" class="block py-2 px-4 rounded hover:bg-blue-50 dark:hover:bg-gray-700">Projects</router-link>
+          <router-link @click.native="showMobileNav = false" to="/settings" class="block py-2 px-4 rounded hover:bg-blue-50 dark:hover:bg-gray-700">Settings</router-link>
+          <router-link @click.native="showMobileNav = false" to="/help" class="block py-2 px-4 rounded hover:bg-blue-50 dark:hover:bg-gray-700">Help</router-link>
+        </div>
+      </transition>
   
       <!-- Page Header -->
       <div :class="[theme === 'dark' ? 'bg-gray-800' : 'bg-white border-b border-gray-200']" class="py-6 px-6 transition-colors duration-300">
@@ -542,6 +560,7 @@
   
   <script lang="ts" setup>
   import { ref, computed, onMounted, watch } from 'vue';
+  import { RouterLink } from 'vue-router';
   
   // Theme management
   const theme = ref(localStorage.getItem('theme') || 'dark');
@@ -918,6 +937,8 @@
       window.removeEventListener('keydown', handleEscape);
     };
   });
+  
+  const showMobileNav = ref(false);
   </script>
   
   <style scoped>
